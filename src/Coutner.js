@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export default () => {
-  const [count, setcount] = useState(0);
-  const add = (n) => {
-    setcount(count+1);
-  }
+export default ({ addCount, count }) => {
    return (<>
    <div>
      Counter
@@ -12,7 +8,7 @@ export default () => {
         current => {count}
         <br />
         <br />
-        <button onClick={() => add(1)}>+</button>
+        <button onClick={() => addCount(1)}>+</button>
       </div>
    </div>
    </>)
