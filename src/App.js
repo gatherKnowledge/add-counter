@@ -1,20 +1,20 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './redux/reducer';
-
 import './App.css';
+import LoadingWave from '@bit/ngoue.playground.loading-wave';
 import CounterPage from './redux/container';
+import { connect } from 'react-redux';
 
-const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-function App() {
+function App({ isLoading }) {
   return (
-    <Provider store={store}>
+    <>
+      {isLoading ? <LoadingWave /> : ''}
       <div className="App">
         <CounterPage />
       </div>
-    </Provider>
+    </>
   );
 }
-
-export default App;
+const mapStateToProps = (state) => ({
+  isLoading: state.isLoading
+});
+export default connect(mapStateToProps, null)(App);

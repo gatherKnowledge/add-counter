@@ -1,18 +1,33 @@
-import { ADD_COUNT, SUB_COUNT, DOUBLE_COUNT } from './action';
+import { ADD_COUNT, SUB_COUNT, DOUBLE_COUNT_REQUEST, DOUBLE_COUNT_SUCCESS, DOUBLE_COUNT_FAILED } from './action';
 
-const initialState = { count: 0 };
-const switchMap = new Map();
+const initialState = { count: 0, isLoading: false };
+
 export default (state = initialState, action) => {
-  // 왜? 다른 add count하는 코드들에서는 전부 reducer에서 더하기 처리를 진행하는 걸까? action에서 처리를 받아서 넘겨줘야하는 것 아닐까?
-  switchMap.set(ADD_COUNT, {
-    ...state,
-    count: state.count + (action.payload && action.payload.value) || action.value
-  });
-  switchMap.set(SUB_COUNT, {
-    ...state  
-  });
-  switchMap.set(DOUBLE_COUNT, {
-    ...state  
-  });
-  return switchMap.get(action.type) || state;
+  switch (action.type) {
+    case ADD_COUNT:
+      return {
+        ...state,
+        count: state.count + action.adder
+      };
+    case SUB_COUNT:
+      return {
+        ...state,
+        count: state.count - action.sub
+      };
+    case DOUBLE_COUNT_FAILED:
+    case DOUBLE_COUNT_REQUEST:
+      return {
+        ...state,
+        count: state.count,
+        isLoading: true
+      };
+    case DOUBLE_COUNT_SUCCESS:
+      return {
+        ...state,
+        count: state.count * 2,
+        isLoading: false
+      };
+    default:
+      return state;
+  }
 }
